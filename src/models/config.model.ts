@@ -1,26 +1,33 @@
 import os from "os";
 
+/**
+ * Interface to provide the config object required by the main
+ * Graylog object to start working
+ */
 export interface IGraylogConfig {
-    servers?: IGraylogConfigServer[];
-    hostname?: string;
-    deflate?: "optimal" | "always" | "never";
-    bufferSize?: number;
+    readonly servers?: Array<IGraylogConfigServer>;
+    readonly hostname?: string;
+    readonly deflate?: "optimal" | "always" | "never";
+    readonly bufferSize?: number;
 }
 
+/**
+ * Implementation for the @type {IGraylogConfig} interface.
+ */
 export class GraylogConfig implements IGraylogConfig {
     private DEFAULT_BUFFERSIZE = 1400;
 
-    servers: IGraylogConfigServer[];
-    hostname: string;
-    deflate: "optimal" | "always" | "never";
-    bufferSize: number;
+    readonly servers: Array<IGraylogConfigServer>;
+    readonly hostname: string;
+    readonly deflate: "optimal" | "always" | "never";
+    readonly bufferSize: number;
 
     constructor(data?: IGraylogConfig) {
         if (!data) {
             data = {} as IGraylogConfig;
         }
 
-        this.servers = [];
+        this.servers = new Array<IGraylogConfigServer>();
         if (data.servers) {
             data.servers.forEach(server => {
                 this.servers.push(new GraylogConfigServer(server));
@@ -35,32 +42,30 @@ export class GraylogConfig implements IGraylogConfig {
     }
 }
 
+/**
+ * Interface to provide the required properties for the server object
+ */
 export interface IGraylogConfigServer {
-    host: string;
-    port: number;
+    readonly host: string;
+    readonly port: number;
 }
 
+/**
+ * Implementation for the @type {IGraylogConfigServer} interface.
+ */
 export class GraylogConfigServer implements IGraylogConfigServer {
+    private DEFAULT_HOST = "127.0.0.1";
     private DEFAULT_PORT = 12201;
 
-    host: string;
-    port: number;
+    readonly host: string;
+    readonly port: number;
 
     constructor(data?: IGraylogConfigServer) {
         if (!data) {
             data = {} as IGraylogConfigServer;
         }
 
-        this.host = data.host || this.getLocalIP();
+        this.host = data.host || this.DEFAULT_HOST;
         this.port = data.port || this.DEFAULT_PORT;
-    }
-
-    private getLocalIP(): string {
-        const interfaces = os.networkInterfaces();
-        let ip: string;
-        Object.keys(interfaces).forEach(i => {
-            ip = i;
-        });
-        return ip;
     }
 }

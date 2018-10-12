@@ -1,13 +1,19 @@
 {
   "name": "ts-graylog",
   "description": "Graylog client library for node.js written in TypeScript",
-  "version": "0.0.1",
-  "author": "Edwin Beltran",
+  "version": "1.0.0",
+  "author": {
+    "name": "Edwin Beltran",
+    "url": "https://www.edwinbeltran.net"
+  },
   "bugs": {
     "url": "http://github.com/ebeltran1981/ts-graylog/issues"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.5",
     "@types/node": "^10.11.7",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.4",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^2.9.0"
@@ -19,10 +25,9 @@
     "url": "http://github.com/ebeltran1981/ts-graylog.git"
   },
   "scripts": {
-    "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "start": "tsc"
+    "start": "tsc -w",
+    "test": "jest --watch"
   },
   "dependencies": {},
-  "main": "index.js"
+  "main": "./dist/index.js"
 }

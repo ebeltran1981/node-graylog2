@@ -8,6 +8,8 @@
         "sourceMap": true,
         "skipLibCheck": true,
         "outDir": "dist",
+        "declaration": true,
+        "strict": true,
         "baseUrl": ".",
         "paths": {
             "*": [

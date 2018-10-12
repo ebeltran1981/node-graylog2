@@ -1,4 +1,4 @@
-export enum LevelEnum {
+export enum GraylogLevelEnum {
     EMERG = 0,    // system is unusable
     ALERT = 1,    // action must be taken immediately
     CRIT = 2,     // critical conditions

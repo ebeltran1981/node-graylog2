@@ -4,6 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var os_1 = __importDefault(require("os"));
+/**
+ * Implementation for the @type {IGraylogConfig} interface.
+ */
 var GraylogConfig = /** @class */ (function () {
     function GraylogConfig(data) {
         var _this = this;
@@ -11,7 +14,7 @@ var GraylogConfig = /** @class */ (function () {
         if (!data) {
             data = {};
         }
-        this.servers = [];
+        this.servers = new Array();
         if (data.servers) {
             data.servers.forEach(function (server) {
                 _this.servers.push(new GraylogConfigServer(server));
@@ -27,23 +30,19 @@ var GraylogConfig = /** @class */ (function () {
     return GraylogConfig;
 }());
 exports.GraylogConfig = GraylogConfig;
+/**
+ * Implementation for the @type {IGraylogConfigServer} interface.
+ */
 var GraylogConfigServer = /** @class */ (function () {
     function GraylogConfigServer(data) {
+        this.DEFAULT_HOST = "127.0.0.1";
         this.DEFAULT_PORT = 12201;
         if (!data) {
             data = {};
         }
-        this.host = data.host || this.getLocalIP();
+        this.host = data.host || this.DEFAULT_HOST;
         this.port = data.port || this.DEFAULT_PORT;
     }
-    GraylogConfigServer.prototype.getLocalIP = function () {
-        var interfaces = os_1.default.networkInterfaces();
-        var ip;
-        Object.keys(interfaces).forEach(function (i) {
-            ip = i;
-        });
-        return ip;
-    };
     return GraylogConfigServer;
 }());
 exports.GraylogConfigServer = GraylogConfigServer;
