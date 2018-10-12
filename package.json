@@ -1,35 +1,28 @@
 {
-  "name": "graylog2",
-  "description": "Graylog2 client library for node.js",
-  "version": "0.2.1",
-  "author": "Marc Trudel-Belise",
+  "name": "ts-graylog",
+  "description": "Graylog client library for node.js written in TypeScript",
+  "version": "0.0.1",
+  "author": "Edwin Beltran",
   "bugs": {
-    "url": "http://github.com/Wizcorp/node-graylog2/issues"
+    "url": "http://github.com/ebeltran1981/ts-graylog/issues"
   },
-  "contributors": [
-    {
-      "name": "Egor Egorov",
-      "email": "me@egorfine.com"
-    },
-    {
-      "name": "Sean Lang",
-      "email": "slang800@gmail.com"
-    }
-  ],
   "devDependencies": {
-    "jshint": "0.9.1"
+    "@types/node": "^10.11.7",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.0"
   },
-  "engines": {
-    "node": ">=0.6.11"
-  },
-  "homepage": "http://github.com/Wizcorp/node-graylog2",
+  "homepage": "http://github.com/ebeltran1981/ts-graylog",
   "license": "MIT",
-  "main": "./graylog.js",
   "repository": {
     "type": "git",
-    "url": "http://github.com/Wizcorp/node-graylog2.git"
+    "url": "http://github.com/ebeltran1981/ts-graylog.git"
   },
   "scripts": {
-    "test": "node ./test"
-  }
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "start": "tsc"
+  },
+  "dependencies": {},
+  "main": "index.js"
 }

@@ -1,9 +1,9 @@
-var zlib         = require('zlib'),
-    crypto       = require('crypto'),
-    dgram        = require('dgram'),
-    util         = require('util'),
-    EventEmitter = require('events').EventEmitter,
-    assert       = require('assert');
+import { deflate } from 'zlib';
+import { randomBytes } from 'crypto';
+import { createSocket } from 'dgram';
+import { inherits } from 'util';
+import { EventEmitter } from 'events';
+import assert from 'assert';
 
 /**
  * Graylog instances emit errors. That means you really really should listen for them,
@@ -34,7 +34,7 @@ var graylog = function graylog(config) {
     this._bufferSize  = config.bufferSize || this.DEFAULT_BUFFERSIZE;
 };
 
-util.inherits(graylog, EventEmitter);
+inherits(graylog, EventEmitter);
 
 graylog.prototype.DEFAULT_BUFFERSIZE = 1400;  // a bit less than a typical MTU of 1500 to be on the safe side
 
@@ -56,7 +56,7 @@ graylog.prototype.getServer = function () {
 
 graylog.prototype.getClient = function () {
     if (!this.client && !this._isDestroyed) {
-        this.client = dgram.createSocket("udp4");
+        this.client = createSocket("udp4");
 
         var that = this;
         this.client.on('error', function (err) {
@@ -193,7 +193,7 @@ graylog.prototype._log = function log(short_message, full_message, additionalFie
         }
 
         // Generate a random id in buffer format
-        crypto.randomBytes(8, function (err, id) {
+        randomBytes(8, function (err, id) {
             if (err) {
                 that._unsentMessages -= 1;
                 return that.emitError(err);
@@ -245,7 +245,7 @@ graylog.prototype._log = function log(short_message, full_message, additionalFie
     if (this.deflate === 'never' || (this.deflate === 'optimal' && payload.length <= this._bufferSize)) {
       sendPayload(null, payload);
     } else {
-      zlib.deflate(payload, sendPayload);
+      deflate(payload, sendPayload);
     }
 };
 
@@ -317,4 +317,5 @@ graylog.prototype.close = function (cb) {
     }
 };
 
-exports.graylog = graylog;
+const _graylog = graylog;
+export { _graylog as graylog };
