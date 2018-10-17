@@ -12,6 +12,7 @@ import { EventEmitter } from "events";
 import { IGraylogConfig, GraylogConfig, IGraylogConfigServer, GraylogConfigServer } from "./models/config.model";
 import { GraylogLevelEnum } from "./models/enums.model";
 import { GraylogMessage, IGraylogMessage } from "./models/message.model";
+import { ReplacerHelper } from "./helpers/replacer.helper";
 
 /**
  * Graylog main class
@@ -104,21 +105,29 @@ export class Graylog extends EventEmitter {
 
     private _log(message: IGraylogMessage, error?: Error, additionalFields?: { [x: string]: string }, level?: GraylogLevelEnum, timestamp?: number) {
         let payload;
-        let field = "";
 
-        message = message || new GraylogMessage({
-            timestamp: timestamp,
-            level: level
-        });
+        if (message) {
+            if (!(message instanceof GraylogMessage)) {
+                message = new GraylogMessage(message);
+            }
+        } else {
+            message = new GraylogMessage({
+                timestamp: timestamp,
+                level: level
+            });
+        }
 
         if (error) {
-            message.exception = JSON.stringify(error);
+            message.exception = JSON.stringify(error, ReplacerHelper.replaceError);
         }
 
         // We insert additional fields
         if (additionalFields) {
-            for (field in additionalFields) {
-                message["_" + field] = additionalFields[field];
+            for (const key in additionalFields) {
+                if (additionalFields.hasOwnProperty(key)) {
+                    const element = additionalFields[key];
+                    message["_" + key] = JSON.stringify(element);
+                }
             }
         }
 

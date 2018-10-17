@@ -1,2 +1,4 @@
-0.0.1: October 12, 2018
+1.0.1: October 17, 2018
+* fix to parsing objects of type Error. Created a Helper for passing into the JSON.stringify.
+1.0.0: October 12, 2018
 * initial release

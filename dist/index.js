@@ -23,6 +23,7 @@ var events_1 = require("events");
 var config_model_1 = require("./models/config.model");
 var enums_model_1 = require("./models/enums.model");
 var message_model_1 = require("./models/message.model");
+var replacer_helper_1 = require("./helpers/replacer.helper");
 /**
  * Graylog main class
  */
@@ -91,18 +92,27 @@ var Graylog = /** @class */ (function (_super) {
     };
     Graylog.prototype._log = function (message, error, additionalFields, level, timestamp) {
         var payload;
-        var field = "";
-        message = message || new message_model_1.GraylogMessage({
-            timestamp: timestamp,
-            level: level
-        });
+        if (message) {
+            if (!(message instanceof message_model_1.GraylogMessage)) {
+                message = new message_model_1.GraylogMessage(message);
+            }
+        }
+        else {
+            message = new message_model_1.GraylogMessage({
+                timestamp: timestamp,
+                level: level
+            });
+        }
         if (error) {
-            message.exception = JSON.stringify(error);
+            message.exception = JSON.stringify(error, replacer_helper_1.ReplacerHelper.replaceError);
         }
         // We insert additional fields
         if (additionalFields) {
-            for (field in additionalFields) {
-                message["_" + field] = additionalFields[field];
+            for (var key in additionalFields) {
+                if (additionalFields.hasOwnProperty(key)) {
+                    var element = additionalFields[key];
+                    message["_" + key] = JSON.stringify(element);
+                }
             }
         }
         // https://github.com/Graylog2/graylog2-docs/wiki/GELF
