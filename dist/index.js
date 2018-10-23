@@ -111,7 +111,15 @@ var Graylog = /** @class */ (function (_super) {
             for (var key in additionalFields) {
                 if (additionalFields.hasOwnProperty(key)) {
                     var element = additionalFields[key];
-                    message["_" + key] = JSON.stringify(element);
+                    if (element === undefined) {
+                        continue;
+                    }
+                    if (typeof element === "string" || typeof element === "number") {
+                        message["_" + key] = element;
+                    }
+                    else {
+                        message["_" + key] = JSON.stringify(element);
+                    }
                 }
             }
         }

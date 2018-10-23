@@ -5,6 +5,9 @@ import { EventEmitter } from "events";
  */
 import { IGraylogConfig } from "./models/config.model";
 import { IGraylogMessage } from "./models/message.model";
+declare type AdditionalFields = {
+    [key: string]: string | number | undefined;
+};
 /**
  * Graylog main class
  */
@@ -17,35 +20,18 @@ export declare class Graylog extends EventEmitter {
     private getClient;
     private getServer;
     destroy(): void;
-    emergency(message: IGraylogMessage, error: Error, additionalFields?: {
-        [x: string]: string;
-    }, timestamp?: number): void;
-    alert(message: IGraylogMessage, error: Error, additionalFields?: {
-        [x: string]: string;
-    }, timestamp?: number): void;
-    critical(message: IGraylogMessage, error: Error, additionalFields?: {
-        [x: string]: string;
-    }, timestamp?: number): void;
-    error(message: IGraylogMessage, error: Error, additionalFields?: {
-        [x: string]: string;
-    }, timestamp?: number): void;
-    warning(message: IGraylogMessage, error: Error, additionalFields?: {
-        [x: string]: string;
-    }, timestamp?: number): void;
-    notice(message: IGraylogMessage, additionalFields?: {
-        [x: string]: string;
-    }, timestamp?: number): void;
-    info(message: IGraylogMessage, additionalFields?: {
-        [x: string]: string;
-    }, timestamp?: number): void;
-    debug(message: IGraylogMessage, error?: Error, additionalFields?: {
-        [x: string]: string;
-    }, timestamp?: number): void;
-    log(message: IGraylogMessage, error?: Error, additionalFields?: {
-        [x: string]: string;
-    }): void;
+    emergency(message: IGraylogMessage, error: Error, additionalFields?: AdditionalFields, timestamp?: number): void;
+    alert(message: IGraylogMessage, error: Error, additionalFields?: AdditionalFields, timestamp?: number): void;
+    critical(message: IGraylogMessage, error: Error, additionalFields?: AdditionalFields, timestamp?: number): void;
+    error(message: IGraylogMessage, error: Error, additionalFields?: AdditionalFields, timestamp?: number): void;
+    warning(message: IGraylogMessage, error: Error, additionalFields?: AdditionalFields, timestamp?: number): void;
+    notice(message: IGraylogMessage, additionalFields?: AdditionalFields, timestamp?: number): void;
+    info(message: IGraylogMessage, additionalFields?: AdditionalFields, timestamp?: number): void;
+    debug(message: IGraylogMessage, error?: Error, additionalFields?: AdditionalFields, timestamp?: number): void;
+    log(message: IGraylogMessage, error?: Error, additionalFields?: AdditionalFields): void;
     private _log;
     private sendPayload;
     private send;
     private emitError;
 }
+export {};
