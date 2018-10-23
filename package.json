@@ -1,11 +1,17 @@
 {
   "name": "ts-graylog",
   "description": "Graylog client library for node.js written in TypeScript",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "Edwin Beltran",
     "url": "https://www.edwinbeltran.net"
   },
+  "contributors": [
+    {
+      "url": "https://github.com/tp",
+      "name": "Timm Preetz"
+    }
+  ],
   "bugs": {
     "url": "http://github.com/ebeltran1981/ts-graylog/issues"
   },

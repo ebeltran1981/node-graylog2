@@ -1,3 +1,5 @@
+1.0.2: October 23, 2018
+* add number as an addl type for the keys `value` additionalFields. Moved inline definition to a `type` for the additionalField definition.
 1.0.1: October 17, 2018
 * fix to parsing objects of type Error. Created a Helper for passing into the JSON.stringify.
 1.0.0: October 12, 2018
