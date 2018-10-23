@@ -14,6 +14,8 @@ import { GraylogLevelEnum } from "./models/enums.model";
 import { GraylogMessage, IGraylogMessage } from "./models/message.model";
 import { ReplacerHelper } from "./helpers/replacer.helper";
 
+type AdditionalFields = { [key: string]: string | number | undefined };
+
 /**
  * Graylog main class
  */
@@ -67,43 +69,43 @@ export class Graylog extends EventEmitter {
         }
     }
 
-    emergency(message: IGraylogMessage, error: Error, additionalFields?: { [x: string]: string }, timestamp?: number) {
+    emergency(message: IGraylogMessage, error: Error, additionalFields?: AdditionalFields, timestamp?: number) {
         return this._log(message, error, additionalFields, GraylogLevelEnum.EMERG, timestamp);
     }
 
-    alert(message: IGraylogMessage, error: Error, additionalFields?: { [x: string]: string }, timestamp?: number) {
+    alert(message: IGraylogMessage, error: Error, additionalFields?: AdditionalFields, timestamp?: number) {
         return this._log(message, error, additionalFields, GraylogLevelEnum.ALERT, timestamp);
     }
 
-    critical(message: IGraylogMessage, error: Error, additionalFields?: { [x: string]: string }, timestamp?: number) {
+    critical(message: IGraylogMessage, error: Error, additionalFields?: AdditionalFields, timestamp?: number) {
         return this._log(message, error, additionalFields, GraylogLevelEnum.CRIT, timestamp);
     }
 
-    error(message: IGraylogMessage, error: Error, additionalFields?: { [x: string]: string }, timestamp?: number) {
+    error(message: IGraylogMessage, error: Error, additionalFields?: AdditionalFields, timestamp?: number) {
         return this._log(message, error, additionalFields, GraylogLevelEnum.ERROR, timestamp);
     }
 
-    warning(message: IGraylogMessage, error: Error, additionalFields?: { [x: string]: string }, timestamp?: number) {
+    warning(message: IGraylogMessage, error: Error, additionalFields?: AdditionalFields, timestamp?: number) {
         return this._log(message, error, additionalFields, GraylogLevelEnum.WARNING, timestamp);
     }
 
-    notice(message: IGraylogMessage, additionalFields?: { [x: string]: string }, timestamp?: number) {
+    notice(message: IGraylogMessage, additionalFields?: AdditionalFields, timestamp?: number) {
         return this._log(message, undefined, additionalFields, GraylogLevelEnum.NOTICE, timestamp);
     }
 
-    info(message: IGraylogMessage, additionalFields?: { [x: string]: string }, timestamp?: number) {
+    info(message: IGraylogMessage, additionalFields?: AdditionalFields, timestamp?: number) {
         return this._log(message, undefined, additionalFields, GraylogLevelEnum.INFO, timestamp);
     }
 
-    debug(message: IGraylogMessage, error?: Error, additionalFields?: { [x: string]: string }, timestamp?: number) {
+    debug(message: IGraylogMessage, error?: Error, additionalFields?: AdditionalFields, timestamp?: number) {
         return this._log(message, error, additionalFields, GraylogLevelEnum.DEBUG, timestamp);
     }
 
-    log(message: IGraylogMessage, error?: Error, additionalFields?: { [x: string]: string }) {
+    log(message: IGraylogMessage, error?: Error, additionalFields?: AdditionalFields) {
         return this._log(message, error, additionalFields, message.level);
     }
 
-    private _log(message: IGraylogMessage, error?: Error, additionalFields?: { [x: string]: string }, level?: GraylogLevelEnum, timestamp?: number) {
+    private _log(message: IGraylogMessage, error?: Error, additionalFields?: AdditionalFields, level?: GraylogLevelEnum, timestamp?: number) {
         let payload;
 
         if (message) {
@@ -126,7 +128,9 @@ export class Graylog extends EventEmitter {
             for (const key in additionalFields) {
                 if (additionalFields.hasOwnProperty(key)) {
                     const element = additionalFields[key];
-                    message["_" + key] = JSON.stringify(element);
+                    if (element !== undefined) {
+                        message["_" + key] = JSON.stringify(element);
+                    }
                 }
             }
         }
