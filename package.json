@@ -1,7 +1,7 @@
 {
   "name": "ts-graylog",
   "description": "Graylog client library for node.js written in TypeScript",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": {
     "name": "Edwin Beltran",
     "url": "https://www.edwinbeltran.net"
