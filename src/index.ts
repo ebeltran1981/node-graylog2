@@ -128,7 +128,13 @@ export class Graylog extends EventEmitter {
             for (const key in additionalFields) {
                 if (additionalFields.hasOwnProperty(key)) {
                     const element = additionalFields[key];
-                    if (element !== undefined) {
+                    if (element === undefined) {
+                        continue;
+                    }
+
+                    if (typeof element === "string" || typeof element === "number") {
+                        message["_" + key] = element;
+                    } else {
                         message["_" + key] = JSON.stringify(element);
                     }
                 }
